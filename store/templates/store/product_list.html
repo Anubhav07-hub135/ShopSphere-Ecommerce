@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopSphere | E-Commerce Store</title>
+
+    <style>
+
+        /* =========================
+           General
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #111827;
+        }
+
+
+        /* =========================
+           Navbar
+        ========================= */
+
+        nav {
+            background-color: #111827;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 28px;
+        }
+
+        nav h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        nav ul li {
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #93c5fd;
+        }
+
+        .username {
+            color: #93c5fd;
+            font-weight: 500;
+        }
+
+        .logout-form {
+            display: inline;
+        }
+
+        .logout-form button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            transition: 0.3s;
+        }
+
+        .logout-form button:hover {
+            color: #93c5fd;
+        }
+
+
+        /* =========================
+           Hero Section
+        ========================= */
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+
+            background: linear-gradient(
+                135deg,
+                #e5e7eb,
+                #dbeafe
+            );
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .shop-now {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 13px 26px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .shop-now:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           Main Container
+        ========================= */
+
+        .container {
+            width: 85%;
+            max-width: 1400px;
+            margin: 50px auto;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           Search + Filters
+        ========================= */
+
+        .filters {
+            margin-bottom: 35px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 13px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-form input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        .search-form button {
+            padding: 13px 24px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-form button:hover {
+            background-color: #1d4ed8;
+        }
+
+
+        /* =========================
+           Category Buttons
+        ========================= */
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-button {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background-color: white;
+            color: #111827;
+            text-decoration: none;
+            border: 1px solid #d1d5db;
+            transition: 0.3s;
+        }
+
+        .category-button:hover {
+            background-color: #e5e7eb;
+        }
+
+        .category-button.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+
+        /* =========================
+           Product Grid
+        ========================= */
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(240px, 1fr)
+            );
+
+            gap: 28px;
+        }
+
+
+        /* =========================
+           Product Cards
+        ========================= */
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-image-link {
+            display: block;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+
+        .product-card h3 {
+            margin: 15px 0 8px;
+            font-size: 19px;
+        }
+
+        .product-card h3 a {
+            color: #111827;
+            text-decoration: none;
+        }
+
+        .product-card h3 a:hover {
+            color: #2563eb;
+        }
+
+        .category {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 21px;
+            font-weight: bold;
+            color: #111827;
+            margin: 10px 0;
+        }
+
+        .stock {
+            color: #16a34a;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .out-of-stock {
+            color: #dc2626;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            margin-top: auto;
+        }
+
+
+        /* =========================
+           Product Buttons
+        ========================= */
+
+        .view-button {
+            display: block;
+            text-align: center;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: #111827;
+            color: white;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .view-button:hover {
+            background-color: #374151;
+        }
+
+        .add-cart {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            background-color: #2563eb;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .add-cart:hover {
+            background-color: #1d4ed8;
+        }
+
+        .disabled-button {
+            display: block;
+            width: 100%;
+            padding: 11px 16px;
+            border-radius: 7px;
+            border: none;
+            background-color: #9ca3af;
+            color: white;
+            text-align: center;
+            font-size: 15px;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           No Products
+        ========================= */
+
+        .no-products {
+            grid-column: 1 / -1;
+            background-color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-products h3 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .no-products p {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .clear-filter {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           Footer
+        ========================= */
+
+        footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            background-color: #111827;
+            color: #d1d5db;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           Tablet
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            nav {
+                padding: 18px 5%;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .hero h2 {
+                font-size: 36px;
+            }
+
+        }
+
+
+        /* =========================
+           Mobile
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 35px auto;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-form button {
+                width: 100%;
+            }
+
+            .categories {
+                justify-content: center;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(
+                    auto-fit,
+                    minmax(210px, 1fr)
+                );
+            }
+
+        }
+
+
+        /* =========================
+           Small Mobile
+        ========================= */
+
+        @media (max-width: 480px) {
+
+            nav h1 {
+                font-size: 24px;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            nav ul li a,
+            .logout-form button {
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 45px 15px;
+            }
+
+            .hero h2 {
+                font-size: 27px;
+            }
+
+            .shop-now {
+                padding: 11px 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card img {
+                height: 240px;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         Navbar
+    ========================== -->
+
+    <nav>
+
+        <h1>
+            <a href="{% url 'product_list' %}">
+                ShopSphere
+            </a>
+        </h1>
+
+
+        <ul>
+
+            <li>
+                <a href="{% url 'product_list' %}">
+                    Home
+                </a>
+            </li>
+
+
+            <li>
+                <a href="#products">
+                    Products
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'cart_detail' %}">
+                    Cart ({{ cart|length }})
+                </a>
+            </li>
+
+
+            {% if user.is_authenticated %}
+
+                <li class="username">
+                    Hello, {{ user.username }}
+                </li>
+
+
+                <li>
+
+                    <form
+                        method="post"
+                        action="{% url 'logout' %}"
+                        class="logout-form"
+                    >
+
+                        {% csrf_token %}
+
+                        <button type="submit">
+                            Logout
+                        </button>
+
+                    </form>
+
+                </li>
+
+            {% else %}
+
+                <li>
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'register' %}">
+                        Register
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+
+
+    <!-- =========================
+         Hero Section
+    ========================== -->
+
+    <section class="hero">
+
+        <h2>
+            Find Your Perfect Product
+        </h2>
+
+        <p>
+            Discover quality products across electronics,
+            fashion, shoes, and accessories.
+        </p>
+
+        <a
+            href="#products"
+            class="shop-now"
+        >
+            Shop Now
+        </a>
+
+    </section>
+
+
+
+    <!-- =========================
+         Products Section
+    ========================== -->
+
+    <div
+        class="container"
+        id="products"
+    >
+
+
+        <!-- Search + Filters -->
+
+        <div class="filters">
+
+
+            <form
+                method="get"
+                class="search-form"
+            >
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search products..."
+                    value="{{ query|default:'' }}"
+                >
+
+
+                {% if selected_category %}
+
+                    <input
+                        type="hidden"
+                        name="category"
+                        value="{{ selected_category }}"
+                    >
+
+                {% endif %}
+
+
+                <button type="submit">
+                    Search
+                </button>
+
+            </form>
+
+
+
+            <!-- Category Filters -->
+
+            <div class="categories">
+
+
+                <a
+                    href="{% url 'product_list' %}"
+                    class="category-button {% if not selected_category %}active{% endif %}"
+                >
+                    All
+                </a>
+
+
+                {% for category in categories %}
+
+                    <a
+                        href="?category={{ category.slug }}"
+                        class="category-button {% if selected_category == category.slug %}active{% endif %}"
+                    >
+                        {{ category.name }}
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <h2 class="section-title">
+            Our Products
+        </h2>
+
+
+
+        <!-- =========================
+             Product Grid
+        ========================== -->
+
+        <div class="product-grid">
+
+
+            {% for product in products %}
+
+
+                <div class="product-card">
+
+
+                    <!-- Product Image -->
+
+                    {% if product.image %}
+
+                        <a
+                            href="{% url 'product_detail' product.slug %}"
+                            class="product-image-link"
+                        >
+
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+
+                        </a>
+
+                    {% endif %}
+
+
+
+                    <!-- Product Name -->
+
+                    <h3>
+
+                        <a href="{% url 'product_detail' product.slug %}">
+                            {{ product.name }}
+                        </a>
+
+                    </h3>
+
+
+
+                    <!-- Category -->
+
+                    <p class="category">
+                        {{ product.category.name }}
+                    </p>
+
+
+
+                    <!-- Price -->
+
+                    <p class="price">
+                        ₹{{ product.price }}
+                    </p>
+
+
+
+                    <!-- Stock -->
+
+                    {% if product.stock > 0 %}
+
+                        <p class="stock">
+                            In Stock: {{ product.stock }}
+                        </p>
+
+                    {% else %}
+
+                        <p class="out-of-stock">
+                            Out of Stock
+                        </p>
+
+                    {% endif %}
+
+
+
+                    <!-- Buttons -->
+
+                    <div class="card-actions">
+
+
+                        <a
+                            href="{% url 'product_detail' product.slug %}"
+                            class="view-button"
+                        >
+                            View Product
+                        </a>
+
+
+                        {% if product.stock > 0 %}
+
+                            <a
+                                href="{% url 'cart_add' product.id %}"
+                                class="add-cart"
+                            >
+                                Add to Cart
+                            </a>
+
+                        {% else %}
+
+                            <button
+                                class="disabled-button"
+                                disabled
+                            >
+                                Out of Stock
+                            </button>
+
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+
+                <!-- No Products Found -->
+
+                <div class="no-products">
+
+                    <h3>
+                        No products found
+                    </h3>
+
+                    <p>
+                        Try another search term or select
+                        a different category.
+                    </p>
+
+                    <a
+                        href="{% url 'product_list' %}"
+                        class="clear-filter"
+                    >
+                        Show All Products
+                    </a>
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         Footer
+    ========================== -->
+
+    <footer>
+
+        <p>
+            © 2026 ShopSphere
+        </p>
+
+        <p>
+            E-Commerce Website developed for the
+            Pinnacle Labs Web Development Internship.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

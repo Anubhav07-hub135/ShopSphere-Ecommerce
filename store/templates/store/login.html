@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ShopSphere</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #111827;
+            padding: 18px 8%;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 400px;
+            max-width: 90%;
+            margin: 70px auto;
+        }
+
+        .form-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-box h2 {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-box p {
+            margin-bottom: 18px;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+    <a href="{% url 'product_list' %}">
+        ShopSphere
+    </a>
+</nav>
+
+
+<div class="container">
+
+    <div class="form-box">
+
+        <h2>Login</h2>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+        <div class="register-link">
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

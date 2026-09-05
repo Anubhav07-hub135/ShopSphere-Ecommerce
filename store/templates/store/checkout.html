@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | ShopSphere</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #111827;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 85%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .checkout-box,
+        .summary-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .checkout-box h2,
+        .summary-box h2 {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .place-order {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            background-color: #16a34a;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .place-order:hover {
+            background-color: #15803d;
+        }
+
+        .summary-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item h3 {
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .back-cart {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 50px;
+            background-color: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media(max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                width: 92%;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <h1>
+        <a href="{% url 'product_list' %}">
+            ShopSphere
+        </a>
+    </h1>
+
+    <ul>
+
+        <li>
+            <a href="{% url 'product_list' %}">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'product_list' %}">
+                Products
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'cart_detail' %}">
+    Cart ({{ cart|length }})
+</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="checkout-box">
+
+        <a
+            href="{% url 'cart_detail' %}"
+            class="back-cart"
+        >
+            ← Back to Cart
+        </a>
+
+        <h2>
+            Checkout
+        </h2>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+    type="tel"
+    id="phone"
+    name="phone"
+    pattern="[0-9]{10}"
+    maxlength="10"
+    placeholder="Enter 10-digit phone number"
+    required
+>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="address">
+                    Delivery Address
+                </label>
+
+                <textarea
+                    id="address"
+                    name="address"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="place-order"
+            >
+                Place Order
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <h2>
+            Order Summary
+        </h2>
+
+
+        {% for item in cart %}
+
+            <div class="summary-item">
+
+                <h3>
+                    {{ item.product.name }}
+                </h3>
+
+                <p>
+                    Quantity:
+                    {{ item.quantity }}
+                </p>
+
+                <p>
+                    ₹{{ item.total_price }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="summary-total">
+
+            Total:
+            ₹{{ cart.get_total_price }}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        &copy; 2026 ShopSphere.
+        Pinnacle Labs Internship Project.
+    </p>
+
+</footer>
+
+</body>
+
+</html>

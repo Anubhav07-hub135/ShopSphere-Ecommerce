@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ product.name }} | ShopSphere</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #111827;
+        }
+
+        nav {
+            background-color: #111827;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 28px;
+        }
+
+        nav h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            color: #93c5fd;
+        }
+
+        .container {
+            width: 85%;
+            margin: 50px auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #1d4ed8;
+        }
+
+        .product-detail {
+            background-color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 500px;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-info h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .category {
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .stock {
+            color: #16a34a;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .out-of-stock {
+            color: #dc2626;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .add-cart {
+            padding: 14px 25px;
+            border: none;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .add-cart:hover {
+            background-color: #1d4ed8;
+        }
+
+        .recommendations {
+            margin-top: 50px;
+        }
+
+        .recommendations h2 {
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .recommendation-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recommendation-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .recommendation-card h3 {
+            margin: 12px 0 8px;
+        }
+
+        .recommendation-card h3 a {
+            text-decoration: none;
+            color: #111827;
+        }
+
+        .recommendation-card h3 a:hover {
+            color: #2563eb;
+        }
+
+        .recommended-category {
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-price {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .view-product {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .view-product:hover {
+            background-color: #1d4ed8;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 25px;
+            background-color: #111827;
+            color: white;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .product-info h2 {
+                font-size: 28px;
+            }
+
+            .price {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h1>
+            <a href="{% url 'product_list' %}">
+                ShopSphere
+            </a>
+        </h1>
+
+        <ul>
+            <li>
+                <a href="{% url 'product_list' %}">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'product_list' %}">
+                    Products
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'cart_detail' %}">
+    Cart ({{ cart|length }})
+</a>
+            </li>
+            {% if user.is_authenticated %}
+
+    <li>
+        Hello, {{ user.username }}
+    </li>
+
+    <li>
+        <form
+            method="post"
+            action="{% url 'logout' %}"
+            style="display:inline;"
+        >
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                style="
+                    background:none;
+                    border:none;
+                    color:white;
+                    cursor:pointer;
+                    font-size:16px;
+                "
+            >
+                Logout
+            </button>
+        </form>
+    </li>
+
+{% else %}
+
+    <li>
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'register' %}">
+            Register
+        </a>
+    </li>
+
+{% endif %}
+        </ul>
+    </nav>
+
+
+    <div class="container">
+
+        <a href="{% url 'product_list' %}" class="back-link">
+            ← Back to Products
+        </a>
+
+
+        <div class="product-detail">
+
+            <div class="product-image">
+
+                {% if product.image %}
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+                {% endif %}
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h2>
+                    {{ product.name }}
+                </h2>
+
+                <p class="category">
+                    Category: {{ product.category.name }}
+                </p>
+
+                <p class="price">
+                    ₹{{ product.price }}
+                </p>
+
+                <p class="description">
+                    {{ product.description }}
+                </p>
+
+
+                {% if product.stock > 0 %}
+
+                    <p class="stock">
+                        In Stock: {{ product.stock }}
+                    </p>
+
+                    <a href="{% url 'cart_add' product.id %}">
+                        <button class="add-cart">
+                            Add to Cart
+                        </button>
+                    </a>
+
+                {% else %}
+
+                    <p class="out-of-stock">
+                        Out of Stock
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% if recommended_products %}
+
+            <section class="recommendations">
+
+                <h2>
+                    You May Also Like
+                </h2>
+
+                <div class="recommendation-grid">
+
+                    {% for recommended in recommended_products %}
+
+                        <div class="recommendation-card">
+
+                            {% if recommended.image %}
+                                <a href="{% url 'product_detail' recommended.slug %}">
+                                    <img
+                                        src="{{ recommended.image.url }}"
+                                        alt="{{ recommended.name }}"
+                                    >
+                                </a>
+                            {% endif %}
+
+
+                            <h3>
+                                <a href="{% url 'product_detail' recommended.slug %}">
+                                    {{ recommended.name }}
+                                </a>
+                            </h3>
+
+
+                            <p class="recommended-category">
+                                {{ recommended.category.name }}
+                            </p>
+
+
+                            <p class="recommendation-price">
+                                ₹{{ recommended.price }}
+                            </p>
+
+
+                            <a
+                                href="{% url 'product_detail' recommended.slug %}"
+                                class="view-product"
+                            >
+                                View Product
+                            </a>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+    </div>
+
+
+    <footer>
+        <p>
+            &copy; 2026 ShopSphere. Pinnacle Labs Internship Project.
+        </p>
+    </footer>
+
+</body>
+
+</html>

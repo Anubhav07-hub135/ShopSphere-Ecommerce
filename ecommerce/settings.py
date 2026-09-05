@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,28 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(6!cz58jif6h@vq^n00b&lz5(usb06z=(4%p0dv9e56dfn8^f#'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-development-key'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get(
+    'RENDER',
+    ''
+) != 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+]
+
+render_hostname = os.environ.get(
+    'RENDER_EXTERNAL_HOSTNAME'
+)
+
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
 
 
 # Application definition
@@ -42,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,7 +146,21 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

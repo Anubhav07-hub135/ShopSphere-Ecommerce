@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -339,10 +340,7 @@
             <div class="product-image">
 
                 {% if product.image %}
-                    <img
-                        src="{{ product.image.url }}"
-                        alt="{{ product.name }}"
-                    >
+                    <img src="{% static 'media/' %}{{ product.image.name }}" alt="{{ product.name }}">
                 {% endif %}
 
             </div>
@@ -408,10 +406,7 @@
 
                             {% if recommended.image %}
                                 <a href="{% url 'product_detail' recommended.slug %}">
-                                    <img
-                                        src="{{ recommended.image.url }}"
-                                        alt="{{ recommended.name }}"
-                                    >
+                                    <img src="{% static 'media/' %}{{ recommended.image.name }}" alt="{{ recommended.name }}">
                                 </a>
                             {% endif %}
 

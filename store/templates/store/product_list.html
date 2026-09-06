@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -783,10 +784,7 @@
                             class="product-image-link"
                         >
 
-                            <img
-                                src="{{ product.image.url }}"
-                                alt="{{ product.name }}"
-                            >
+                            <img src="{% static 'media/' %}{{ product.image.name }}" alt="{{ product.name }}">
 
                         </a>
 
